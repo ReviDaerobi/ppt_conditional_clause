@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditional Clauses - English Grammar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2d3748;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide {
+            display: none;
+            padding: 60px;
+            height: 100vh;
+            position: relative;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1a202c;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 3rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2d3748;
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 25px;
+            color: #4a5568;
+            text-align: center;
+        }
+
+        .content {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            font-weight: 300;
+            margin-bottom: 50px;
+            color: #718096;
+            letter-spacing: 0.02em;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 40px 30px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .card h4 {
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+
+        .card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+        }
+
+        .example-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 35px;
+            margin: 30px 0;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .example-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .example-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #2d3748;
+            text-align: left;
+            font-style: italic;
+        }
+
+        .condition-highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .result-highlight {
+            background: linear-gradient(120deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 16px 32px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50px;
+            color: #4a5568;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #4a5568;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+        }
+
+        .type-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .usage-card {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: left;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .usage-card:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-4px);
+        }
+
+        .usage-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .usage-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .usage-desc {
+            font-size: 1rem;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        .interactive-quiz {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .quiz-question {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #2d3748;
+            margin-bottom: 25px;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .quiz-option:hover {
+            border-color: #667eea;
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .quiz-option.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .quiz-option.correct {
+            border-color: #48bb78;
+            background: rgba(72, 187, 120, 0.1);
+        }
+
+        .quiz-option.incorrect {
+            border-color: #f56565;
+            background: rgba(245, 101, 101, 0.1);
+        }
+
+        .quiz-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .quiz-result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            display: none;
+        }
+
+        .title-slide {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .content-slide {
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+        }
+
+        @media (max-width: 768px) {
+            .slide { padding: 30px 20px; }
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide-counter">
+            <span id="slideCounter">1 / 9</span>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <div class="content">
+                <h1>Conditional Clauses</h1>
+                <p class="subtitle">Mastering Hypothetical Situations in English Grammar</p>
+                <div class="card" style="max-width: 600px; margin: 50px auto;">
+                    <h4>What You'll Learn</h4>
+                    <p>Understand how to express possibilities, wishes, and hypothetical situations using conditional sentences in English</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: What are Conditional Clauses? -->
+        <div class="slide content-slide">
+            <div class="content">
+                <h2>What are Conditional Clauses?</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h4>📝 Definition</h4>
+                        <p>Sentences that express a condition and its result. They show what happens <strong>IF</strong> something else happens first.</p>
+                    </div>
+                    <div class="card">
+                        <h4>🏗️ Structure</h4>
+                        <p>Conditional clauses have two parts: the <strong>IF clause</strong> (condition) and the <strong>main clause</strong> (result).</p>
+                    </div>
+                </div>
+                <div class="formula-box">
+                    IF + <span class="condition-highlight">condition</span> + <span class="result-highlight">result</span>
+                </div>
+                <div class="example-container">
+                    <div class="example-title">Example:</div>
+                    <div class="example-text">
+                        <span class="condition-highlight">If it rains tomorrow</span>, <span class="result-highlight">I will stay at home</span>.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Zero Conditional -->
+        <div class="slide content-slide">
+            <div class="content">
+                <h2>Zero Conditional</h2>
+                <div class="type-badge">Type 0: General Facts & Habits</div>
+                <div class="formula-box">
+                    IF + Present Simple + Present Simple
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🔬 Usage</h4>
+                        <p>Express general truths, scientific facts, and habits that are always true</p>
+                    </div>
+                    <div class="card">
+                        <h4>⏰ Time Reference</h4>
+                        <p>Always true - no specific time</p>
+                    </div>
+                </div>
+                <div class="example-container">
+                    <div class="example-title">Examples:</div>
+                    <div class="example-text">
+                        • <span class="condition-highlight">If you heat water to 100°C</span>, <span class="result-highlight">it boils</span>.<br><br>
+                        • <span class="condition-highlight">If I drink coffee at night</span>, <span class="result-highlight">I can't sleep</span>.<br><br>
+                        • <span class="condition-highlight">If you mix red and blue</span>, <span class="result-highlight">you get purple</span>.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: First Conditional -->
+        <div class="slide content-slide">
+            <div class="content">
+                <h2>First Conditional</h2>
+                <div class="type-badge">Type 1: Real Future Possibilities</div>
+                <div class="formula-box">
+                    IF + Present Simple + WILL + Base Verb
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎯 Usage</h4>
+                        <p>Express real possibilities in the future - things that are likely to happen</p>
+                    </div>
+                    <div class="card">
+                        <h4>📅 Time Reference</h4>
+                        <p>Future - realistic possibilities</p>
+                    </div>
+                </div>
+                <div class="example-container">
+                    <div class="example-title">Examples:</div>
+                    <div class="example-text">
+                        • <span class="condition-highlight">If I study hard</span>, <span class="result-highlight">I will pass the exam</span>.<br><br>
+                        • <span class="condition-highlight">If it's sunny tomorrow</span>, <span class="result-highlight">we will go to the beach</span>.<br><br>
+                        • <span class="condition-highlight">If you call me later</span>, <span class="result-highlight">I will help you</span>.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Second Conditional -->
+        <div class="slide content-slide">
+            <div class="content">
+                <h2>Second Conditional</h2>
+                <div class="type-badge">Type 2: Unreal Present/Future</div>
+                <div class="formula-box">
+                    IF + Past Simple + WOULD + Base Verb
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🌙 Usage</h4>
+                        <p>Express unreal or unlikely situations in the present or future - dreams, wishes, imagination</p>
+                    </div>
+                    <div class="card">
+                        <h4>💭 Time Reference</h4>
+                        <p>Present/Future - hypothetical situations</p>
+                    </div>
+                </div>
+                <div class="example-container">
+                    <div class="example-title">Examples:</div>
+                    <div class="example-text">
+                        • <span class="condition-highlight">If I were rich</span>, <span class="result-highlight">I would travel the world</span>.<br><br>
+                        • <span class="condition-highlight">If I had more time</span>, <span class="result-highlight">I would learn piano</span>.<br><br>
+                        • <span class="condition-highlight">If you lived in Japan</span>, <span class="result-highlight">you would speak Japanese fluently</span>.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Third Conditional -->
+        <div class="slide content-slide">
+            <div class="content">
+                <h2>Third Conditional</h2>
+                <div class="type-badge">Type 3: Unreal Past</div>
+                <div class="formula-box">
+                    IF + Past Perfect + WOULD HAVE + Past Participle
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🕰️ Usage</h4>
+                        <p>Express regrets about the past - situations that didn't happen but we imagine the results</p>
+                    </div>
+                    <div class="card">
+                        <h4>📜 Time Reference</h4>
+                        <p>Past - impossible to change</p>
+                    </div>
+                </div>
+                <div class="example-container">
+                    <div class="example-title">Examples:</div>
+                    <div class="example-text">
+                        • <span class="condition-highlight">If I had studied harder</span>, <span class="result-highlight">I would have passed the test</span>.<br><br>
+                        • <span class="condition-highlight">If you had called me</span>, <span class="result-highlight">I would have helped you</span>.<br><br>
+                        • <span class="condition-highlight">If we had left earlier</span>, <span class="result-highlight">we wouldn't have missed the train</span>.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: When to Use Each Type -->
+        <div class="slide content-slide">
+            <div class="content">
+                <h2>When to Use Each Type</h2>
+                <div class="usage-grid">
+                    <div class="usage-card">
+                        <div class="usage-icon">🔬</div>
+                        <div class="usage-title">Zero Conditional</div>
+                        <div class="usage-desc">Scientific facts, general truths, habits</div>
+                        <div style="margin-top: 10px; font-style: italic; color: #667eea;">
+                            "If you don't water plants, they die."
+                        </div>
+                    </div>
+                    <div class="usage-card">
+                        <div class="usage-icon">🎯</div>
+                        <div class="usage-title">First Conditional</div>
+                        <div class="usage-desc">Real future plans, predictions, promises</div>
+                        <div style="margin-top: 10px; font-style: italic; color: #667eea;">
+                            "If I save money, I'll buy a car."
+                        </div>
+                    </div>
+                    <div class="usage-card">
+                        <div class="usage-icon">💭</div>
+                        <div class="usage-title">Second Conditional</div>
+                        <div class="usage-desc">Advice, wishes, dreams, unlikely situations</div>
+                        <div style="margin-top: 10px; font-style: italic; color: #667eea;">
+                            "If I were you, I would apologize."
+                        </div>
+                    </div>
+                    <div class="usage-card">
+                        <div class="usage-icon">🕰️</div>
+                        <div class="usage-title">Third Conditional</div>
+                        <div class="usage-desc">Regrets, criticism, imagining different past</div>
+                        <div style="margin-top: 10px; font-style: italic; color: #667eea;">
+                            "If I had known, I would have come."
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Interactive Quiz -->
+        <div class="slide content-slide">
+            <div class="content">
+                <h2>Quick Practice</h2>
+                <div class="interactive-quiz">
+                    <div class="quiz-question">Choose the correct conditional type for this sentence:</div>
+                    <div style="font-style: italic; font-size: 1.2rem; margin-bottom: 25px; color: #667eea;">
+                        "If I _____ (be) taller, I _____ (play) basketball professionally."
+                    </div>
+                    <div class="quiz-options" id="quizOptions">
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            A) If I am taller, I will play basketball professionally.
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">
+                            B) If I were taller, I would play basketball professionally.
+                        </div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">
+                            C) If I had been taller, I would have played basketball professionally.
+                        </div>
+                    </div>
+                    <button class="quiz-btn" onclick="checkAnswer()" id="checkBtn">Check Answer</button>
+                    <div class="quiz-result" id="quizResult"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Summary -->
+        <div class="slide content-slide">
+            <div class="content">
+                <h2>Key Takeaways</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎯 Purpose</h4>
+                        <p>Conditional clauses help us express different types of situations and their consequences</p>
+                    </div>
+                    <div class="card">
+                        <h4>📚 Types</h4>
+                        <p>Four main types: Zero (facts), First (real future), Second (unreal present), Third (unreal past)</p>
+                    </div>
+                    <div class="card">
+                        <h4>💡 Usage</h4>
+                        <p>Choose the right type based on probability and time reference of the situation</p>
+                    </div>
+                    <div class="card">
+                        <h4>🔄 Practice</h4>
+                        <p>Regular practice helps you use conditionals naturally in conversation and writing</p>
+                    </div>
+                </div>
+                <div class="formula-box">
+                    Remember: The key is understanding whether the situation is<br>
+                    <strong>real or unreal</strong> and <strong>when it happens</strong>! ✨
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn" onclick="previousSlide()" id="prevBtn">Previous</button>
+            <button class="nav-btn" onclick="nextSlide()" id="nextBtn">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let selectedOption = null;
+        let quizAnswered = false;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        function selectOption(element, isCorrect) {
+            if (quizAnswered) return;
+            
+            // Remove previous selection
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            element.classList.add('selected');
+            selectedOption = { element, isCorrect };
+        }
+
+        function checkAnswer() {
+            if (!selectedOption || quizAnswered) return;
+            
+            quizAnswered = true;
+            const resultDiv = document.getElementById('quizResult');
+            const checkBtn = document.getElementById('checkBtn');
+            
+            // Show correct answer
+            document.querySelectorAll('.quiz-option')[1].classList.add('correct');
+            
+            if (selectedOption.isCorrect) {
+                resultDiv.innerHTML = '✅ Correct! This is Second Conditional because it expresses an unreal present situation (being taller is impossible to change right now).';
+                resultDiv.style.background = 'rgba(72, 187, 120, 0.1)';
+                resultDiv.style.borderLeft = '4px solid #48bb78';
+            } else {
+                selectedOption.element.classList.add('incorrect');
+                resultDiv.innerHTML = '❌ Not quite. The correct answer is B. This is Second Conditional because it expresses an unreal present situation - the person cannot change their height now.';
+                resultDiv.style.background = 'rgba(245, 101, 101, 0.1)';
+                resultDiv.style.borderLeft = '4px solid #f56565';
+            }
+            
+            resultDiv.style.display = 'block';
+            checkBtn.textContent = 'Try Another Question';
+            checkBtn.onclick = resetQuiz;
+        }
+
+        function resetQuiz() {
+            quizAnswered = false;
+            selectedOption = null;
+            
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            document.getElementById('quizResult').style.display = 'none';
+            document.getElementById('checkBtn').textContent = 'Check Answer';
+            document.getElementById('checkBtn').onclick = checkAnswer;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                event.preventDefault();
+                nextSlide();
+            } else if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                previousSlide();
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
