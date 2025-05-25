@@ -3,8 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conditional Clauses - English Grammar</title>
+    <title>Conditional Clauses - Interactive Grammar Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --accent-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 20px 60px rgba(0, 0, 0, 0.12);
+            --shadow-strong: 0 30px 80px rgba(0, 0, 0, 0.15);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,24 +29,51 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #2d3748;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: var(--text-primary);
             overflow: hidden;
             height: 100vh;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: white;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
         }
 
         .presentation-container {
             height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .slide {
             display: none;
-            padding: 60px;
+            padding: 4rem;
             height: 100vh;
             position: relative;
-            animation: fadeIn 0.8s ease-in-out;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .slide.active {
@@ -38,596 +81,990 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .slide.prev {
+            transform: translateX(-100px);
         }
 
+        .slide.next {
+            transform: translateX(100px);
+        }
+
+        /* Typography */
         h1 {
-            font-size: 4rem;
-            font-weight: 300;
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 700;
             text-align: center;
-            margin-bottom: 30px;
-            color: #1a202c;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #fff 0%, #f0f8ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             letter-spacing: -0.02em;
+            line-height: 1.2;
         }
 
         h2 {
-            font-size: 3rem;
-            font-weight: 300;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 600;
             text-align: center;
-            margin-bottom: 40px;
-            color: #2d3748;
+            margin-bottom: 3rem;
+            color: white;
+            text-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
             letter-spacing: -0.01em;
         }
 
         h3 {
             font-size: 1.8rem;
-            font-weight: 400;
-            margin-bottom: 25px;
-            color: #4a5568;
-            text-align: center;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
         }
 
         .content {
-            max-width: 1200px;
+            max-width: 1400px;
             width: 100%;
             text-align: center;
+            z-index: 10;
         }
 
         .subtitle {
-            font-size: 1.4rem;
-            font-weight: 300;
-            margin-bottom: 50px;
-            color: #718096;
-            letter-spacing: 0.02em;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Glass morphism cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.8s;
+        }
+
+        .glass-card:hover::before {
+            left: 100%;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-strong);
+            background: rgba(255, 255, 255, 0.25);
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
+            gap: 2rem;
+            margin: 3rem 0;
         }
 
-        .card {
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 20px;
-            padding: 40px 30px;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         }
 
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-            background: rgba(255, 255, 255, 0.95);
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
         }
 
         .card h4 {
-            font-size: 1.4rem;
-            font-weight: 500;
-            margin-bottom: 20px;
-            color: #2d3748;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .card p {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #4a5568;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
         }
 
-        .example-container {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 16px;
-            padding: 35px;
-            margin: 30px 0;
-            border-left: 4px solid #667eea;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        /* Enhanced formula box */
+        .formula-container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(25px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2.5rem 0;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .formula-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .formula-text {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: white;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.05em;
+        }
+
+        /* Enhanced example container */
+        .example-showcase {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2.5rem 0;
+            box-shadow: var(--shadow-medium);
+            border-left: 6px solid;
+            border-image: var(--primary-gradient) 1;
+        }
+
+        .example-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .example-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
         }
 
         .example-title {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 600;
-            color: #667eea;
-            margin-bottom: 20px;
-            text-align: left;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .example-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .example-item {
+            background: rgba(102, 126, 234, 0.05);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .example-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateX(8px);
         }
 
         .example-text {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             line-height: 1.8;
-            color: #2d3748;
-            text-align: left;
-            font-style: italic;
+            color: var(--text-primary);
         }
 
         .condition-highlight {
             background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
-            padding: 3px 8px;
-            border-radius: 6px;
+            padding: 4px 12px;
+            border-radius: 8px;
             font-weight: 600;
-            color: #2d3748;
+            color: var(--text-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .result-highlight {
             background: linear-gradient(120deg, #ffecd2 0%, #fcb69f 100%);
-            padding: 3px 8px;
-            border-radius: 6px;
+            padding: 4px 12px;
+            border-radius: 8px;
             font-weight: 600;
-            color: #2d3748;
+            color: var(--text-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
+        /* Type badges */
+        .type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-gradient);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Enhanced usage cards */
+        .usage-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: left;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .usage-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .usage-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .usage-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .usage-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .usage-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .usage-example {
+            background: rgba(102, 126, 234, 0.08);
+            padding: 1rem;
+            border-radius: 12px;
+            font-style: italic;
+            color: #667eea;
+            font-weight: 500;
+            border-left: 3px solid #667eea;
+        }
+
+        /* Enhanced interactive quiz */
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(20px);
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .quiz-question {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .quiz-sentence {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.08);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: left;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-option::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+            transform: translateX(8px);
+        }
+
+        .quiz-option:hover::before {
+            background: #667eea;
+        }
+
+        .quiz-option.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+            transform: scale(1.02);
+        }
+
+        .quiz-option.correct {
+            border-color: #48bb78;
+            background: rgba(72, 187, 120, 0.1);
+            animation: correctPulse 0.6s ease;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #f56565;
+            background: rgba(245, 101, 101, 0.1);
+            animation: incorrectShake 0.6s ease;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .quiz-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .quiz-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .quiz-result {
+            margin-top: 2rem;
+            padding: 2rem;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: none;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
         .navigation {
             position: fixed;
-            bottom: 40px;
+            bottom: 2rem;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 20px;
+            gap: 1rem;
             z-index: 1000;
         }
 
         .nav-btn {
             padding: 16px 32px;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
-            color: #4a5568;
+            color: white;
             cursor: pointer;
             font-size: 1rem;
-            font-weight: 500;
-            backdrop-filter: blur(20px);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 1);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        .nav-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
         }
 
         .nav-btn:disabled {
-            opacity: 0.4;
+            opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
 
         .slide-counter {
             position: fixed;
-            top: 40px;
-            right: 40px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #4a5568;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-        }
-
-        .type-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-
-        .usage-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin: 40px 0;
-        }
-
-        .usage-card {
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 16px;
-            padding: 30px;
-            text-align: left;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-        }
-
-        .usage-card:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-4px);
-        }
-
-        .usage-icon {
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
-
-        .usage-title {
-            font-size: 1.2rem;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 1rem;
             font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 10px;
-        }
-
-        .usage-desc {
-            font-size: 1rem;
-            color: #4a5568;
-            line-height: 1.5;
-        }
-
-        .formula-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border-radius: 16px;
-            padding: 30px;
-            margin: 30px 0;
-            font-size: 1.2rem;
-            font-weight: 500;
-            letter-spacing: 0.02em;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .interactive-quiz {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            padding: 40px;
-            margin: 30px 0;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+            z-index: 1001;
         }
 
-        .quiz-question {
-            font-size: 1.3rem;
-            font-weight: 500;
-            color: #2d3748;
-            margin-bottom: 25px;
-        }
-
-        .quiz-options {
-            display: grid;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .quiz-option {
-            background: rgba(255, 255, 255, 0.8);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 15px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: left;
-        }
-
-        .quiz-option:hover {
-            border-color: #667eea;
-            background: rgba(255, 255, 255, 1);
-        }
-
-        .quiz-option.selected {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
-        }
-
-        .quiz-option.correct {
-            border-color: #48bb78;
-            background: rgba(72, 187, 120, 0.1);
-        }
-
-        .quiz-option.incorrect {
-            border-color: #f56565;
-            background: rgba(245, 101, 101, 0.1);
-        }
-
-        .quiz-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 30px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .quiz-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .quiz-result {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 500;
-            display: none;
-        }
-
-        .title-slide {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
-
-        .content-slide {
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-        }
-
+        /* Responsive design */
         @media (max-width: 768px) {
-            .slide { padding: 30px 20px; }
-            h1 { font-size: 2.5rem; }
-            h2 { font-size: 2rem; }
-            .grid { grid-template-columns: 1fr; }
+            .slide { 
+                padding: 2rem 1rem; 
+            }
+            
+            h1 { 
+                font-size: 2.5rem; 
+            }
+            
+            h2 { 
+                font-size: 2rem; 
+                margin-bottom: 2rem;
+            }
+            
+            .grid { 
+                grid-template-columns: 1fr; 
+                gap: 1.5rem;
+            }
+            
+            .formula-container,
+            .example-showcase,
+            .quiz-container {
+                padding: 2rem;
+                margin: 2rem 0;
+            }
+            
+            .navigation {
+                bottom: 1rem;
+                gap: 0.5rem;
+            }
+            
+            .nav-btn {
+                padding: 12px 24px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide {
+                padding: 1.5rem 1rem;
+            }
+            
+            .formula-container,
+            .example-showcase,
+            .quiz-container {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="bg-animation" id="bgAnimation"></div>
+    <div class="progress-bar" id="progressBar"></div>
+    
     <div class="presentation-container">
         <div class="slide-counter">
-            <span id="slideCounter">1 / 9</span>
+            <span id="slideCounter">1 / 10</span>
         </div>
 
-        <!-- Slide 1: Title -->
-        <div class="slide active title-slide">
+        <!-- Slide 1: Enhanced Title -->
+        <div class="slide active">
             <div class="content">
-                <h1>Conditional Clauses</h1>
-                <p class="subtitle">Mastering Hypothetical Situations in English Grammar</p>
-                <div class="card" style="max-width: 600px; margin: 50px auto;">
-                    <h4>What You'll Learn</h4>
-                    <p>Understand how to express possibilities, wishes, and hypothetical situations using conditional sentences in English</p>
+                <h1>🎯 Conditional Clauses</h1>
+                <p class="subtitle">Master the Art of Expressing Possibilities, Wishes & Hypothetical Situations</p>
+                <div class="glass-card" style="max-width: 700px; margin: 3rem auto;">
+                    <div class="card-icon">🚀</div>
+                    <h4>What You'll Master Today</h4>
+                    <p>Learn to express conditions, possibilities, and hypothetical situations with confidence using the four types of conditional sentences in English grammar.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 2: What are Conditional Clauses? -->
-        <div class="slide content-slide">
+        <!-- Slide 2: Enhanced Introduction -->
+        <div class="slide">
             <div class="content">
-                <h2>What are Conditional Clauses?</h2>
-                <div class="grid">
-                    <div class="card">
-                        <h4>📝 Definition</h4>
-                        <p>Sentences that express a condition and its result. They show what happens <strong>IF</strong> something else happens first.</p>
+                <h2>🔍 What are Conditional Clauses?</h2>
+                <div class="grid grid-2">
+                    <div class="glass-card">
+                        <div class="card-icon">📝</div>
+                        <h4>Definition</h4>
+                        <p>Conditional clauses are sentences that express a relationship between a condition and its result. They help us talk about what happens <strong>IF</strong> something else occurs first.</p>
                     </div>
-                    <div class="card">
-                        <h4>🏗️ Structure</h4>
-                        <p>Conditional clauses have two parts: the <strong>IF clause</strong> (condition) and the <strong>main clause</strong> (result).</p>
+                    <div class="glass-card">
+                        <div class="card-icon">🏗️</div>
+                        <h4>Structure</h4>
+                        <p>Every conditional sentence has two essential parts: the <strong>IF clause</strong> (condition) and the <strong>main clause</strong> (result or consequence).</p>
                     </div>
                 </div>
-                <div class="formula-box">
-                    IF + <span class="condition-highlight">condition</span> + <span class="result-highlight">result</span>
+                <div class="formula-container">
+                    <div class="formula-title">Basic Structure</div>
+                    <div class="formula-text">IF + <span class="condition-highlight">CONDITION</span> + <span class="result-highlight">RESULT</span></div>
                 </div>
-                <div class="example-container">
-                    <div class="example-title">Example:</div>
+                <div class="example-showcase">
+                    <div class="example-header">
+                        <div class="example-icon">💡</div>
+                        <div class="example-title">Simple Example</div>
+                    </div>
                     <div class="example-text">
-                        <span class="condition-highlight">If it rains tomorrow</span>, <span class="result-highlight">I will stay at home</span>.
+                        <span class="condition-highlight">If it rains tomorrow</span>, <span class="result-highlight">I will stay at home and read a book</span>.
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 3: Zero Conditional -->
-        <div class="slide content-slide">
+        <!-- Slide 3: Enhanced Zero Conditional -->
+        <div class="slide">
             <div class="content">
-                <h2>Zero Conditional</h2>
-                <div class="type-badge">Type 0: General Facts & Habits</div>
-                <div class="formula-box">
-                    IF + Present Simple + Present Simple
+                <h2>🔬 Zero Conditional</h2>
+                <div class="type-badge">
+                    <span>🏷️</span>
+                    Type 0: Universal Facts & Natural Laws
                 </div>
-                <div class="grid">
-                    <div class="card">
-                        <h4>🔬 Usage</h4>
-                        <p>Express general truths, scientific facts, and habits that are always true</p>
+                
+                <div class="formula-container">
+                    <div class="formula-title">Formula</div>
+                    <div class="formula-text">IF + Present Simple + Present Simple</div>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="glass-card">
+                        <div class="card-icon">🔬</div>
+                        <h4>When to Use</h4>
+                        <p>Express scientific facts, general truths, natural laws, and universal habits that are always true regardless of time.</p>
                     </div>
-                    <div class="card">
-                        <h4>⏰ Time Reference</h4>
-                        <p>Always true - no specific time</p>
+                    <div class="glass-card">
+                        <div class="card-icon">⏰</div>
+                        <h4>Time Reference</h4>
+                        <p>Timeless - applies to all situations, past, present, and future. These are permanent truths.</p>
                     </div>
                 </div>
-                <div class="example-container">
-                    <div class="example-title">Examples:</div>
-                    <div class="example-text">
-                        • <span class="condition-highlight">If you heat water to 100°C</span>, <span class="result-highlight">it boils</span>.<br><br>
-                        • <span class="condition-highlight">If I drink coffee at night</span>, <span class="result-highlight">I can't sleep</span>.<br><br>
-                        • <span class="condition-highlight">If you mix red and blue</span>, <span class="result-highlight">you get purple</span>.
+
+                <div class="example-showcase">
+                    <div class="example-header">
+                        <div class="example-icon">🧪</div>
+                        <div class="example-title">Real-World Examples</div>
+                    </div>
+                    <div class="example-list">
+                        <div class="example-item">
+                            <div class="example-text">
+                                <span class="condition-highlight">If you heat water to 100°C</span>, <span class="result-highlight">it boils and turns into steam</span>.
+                            </div>
+                        </div>
+                        <div class="example-item">
+                            <div class="example-text">
+                                <span class="condition-highlight">If I drink coffee after 6 PM</span>, <span class="result-highlight">I can't fall asleep at night</span>.
+                            </div>
+                        </div>
+                        <div class="example-item">
+                            <div class="example-text">
+                                <span class="condition-highlight">If you mix red and yellow paint</span>, <span class="result-highlight">you get orange color</span>.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 4: First Conditional -->
-        <div class="slide content-slide">
+        <!-- Slide 4: Enhanced First Conditional -->
+        <div class="slide">
             <div class="content">
-                <h2>First Conditional</h2>
-                <div class="type-badge">Type 1: Real Future Possibilities</div>
-                <div class="formula-box">
-                    IF + Present Simple + WILL + Base Verb
+                <h2>🎯 First Conditional</h2>
+                <div class="type-badge">
+                    <span>🔮</span>
+                    Type 1: Real Future Possibilities
                 </div>
-                <div class="grid">
-                    <div class="card">
-                        <h4>🎯 Usage</h4>
-                        <p>Express real possibilities in the future - things that are likely to happen</p>
+                
+                <div class="formula-container">
+                    <div class="formula-title">Formula</div>
+                    <div class="formula-text">IF + Present Simple + WILL + Base Verb</div>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="glass-card">
+                        <div class="card-icon">🎯</div>
+                        <h4>When to Use</h4>
+                        <p>Express real, possible future situations. These are plans, predictions, and promises about things that could realistically happen.</p>
                     </div>
-                    <div class="card">
-                        <h4>📅 Time Reference</h4>
-                        <p>Future - realistic possibilities</p>
+                    <div class="glass-card">
+                        <div class="card-icon">📅</div>
+                        <h4>Time Reference</h4>
+                        <p>Future - realistic and achievable possibilities with high probability of occurrence.</p>
                     </div>
                 </div>
-                <div class="example-container">
-                    <div class="example-title">Examples:</div>
-                    <div class="example-text">
-                        • <span class="condition-highlight">If I study hard</span>, <span class="result-highlight">I will pass the exam</span>.<br><br>
-                        • <span class="condition-highlight">If it's sunny tomorrow</span>, <span class="result-highlight">we will go to the beach</span>.<br><br>
-                        • <span class="condition-highlight">If you call me later</span>, <span class="result-highlight">I will help you</span>.
+
+                <div class="example-showcase">
+                    <div class="example-header">
+                        <div class="example-icon">🌟</div>
+                        <div class="example-title">Realistic Future Scenarios</div>
+                    </div>
+                    <div class="example-list">
+                        <div class="example-item">
+                            <div class="example-text">
+                                <span class="condition-highlight">If I study hard for the exam</span>, <span class="result-highlight">I will pass with excellent grades</span>.
+                            </div>
+                        </div>
+                        <div class="example-item">
+                            <div class="example-text">
+                                <span class="condition-highlight">If the weather is sunny tomorrow</span>, <span class="result-highlight">we will have our picnic in the park</span>.
+                            </div>
+                        </div>
+                        <div class="example-item">
+                            <div class="example-text">
+                                <span class="condition-highlight">If you call me before 8 PM</span>, <span class="result-highlight">I will help you with your project</span>.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 5: Second Conditional -->
-        <div class="slide content-slide">
+        <!-- Slide 5: Enhanced Second Conditional -->
+        <div class="slide">
             <div class="content">
-                <h2>Second Conditional</h2>
-                <div class="type-badge">Type 2: Unreal Present/Future</div>
-                <div class="formula-box">
-                    IF + Past Simple + WOULD + Base Verb
+                <h2>💭 Second Conditional</h2>
+                <div class="type-badge">
+                    <span>🌙</span>
+                    Type 2: Unreal Present/Future Dreams
                 </div>
-                <div class="grid">
-                    <div class="card">
-                        <h4>🌙 Usage</h4>
-                        <p>Express unreal or unlikely situations in the present or future - dreams, wishes, imagination</p>
+                
+                <div class="formula-container">
+                    <div class="formula-title">Formula</div>
+                    <div class="formula-text">IF + Past Simple + WOULD + Base Verb</div>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="glass-card">
+                        <div class="card-icon">💭</div>
+                        <h4>When to Use</h4>
+                        <p>Express unreal, unlikely, or impossible situations in the present or future. Perfect for dreams, wishes, advice, and imagination.</p>
                     </div>
-                    <div class="card">
-                        <h4>💭 Time Reference</h4>
-                        <p>Present/Future - hypothetical situations</p>
+                    <div class="glass-card">
+                        <div class="card-icon">🎨</div>
+                        <h4>Time Reference</h4>
+                        <p>Present/Future - hypothetical situations that are unlikely or impossible to happen in reality.</p>
                     </div>
                 </div>
-                <div class="example-container">
-                    <div class="example-title">Examples:</div>
-                    <div class="example-text">
-                        • <span class="condition-highlight">If I were rich</span>, <span class="result-highlight">I would travel the world</span>.<br><br>
-                        • <span class="condition-highlight">If I had more time</span>, <span class="result-highlight">I would learn piano</span>.<br><br>
-                        • <span class="condition-highlight">If you lived in Japan</span>, <span class="result-highlight">you would speak Japanese fluently</span>.
+
+                <div class="example-showcase">
+                    <div class="example-header">
+                        <div class="example-icon">✨</div>
+                        <div class="example-title">Dreams & Hypothetical Situations</div>
+                    </div>
+                    <div class="example-list">
+                        <div class="example-item">
+                            <div class="example-text">
+                                <span class="condition-highlight">If I were a millionaire</span>, <span class="result-highlight">I would travel around the world and help charity organizations</span>.
+                            </div>
+                        </div>
+                        <div class="example-item">
+                            <div class="example-text">
+                                <span class="condition-highlight">If I had more free time</span>, <span class="result-highlight">I would learn to play the piano and speak French fluently</span>.
+                            </div>
+                        </div>
+                        <div class="example-item">
+                            <div class="example-text">
+                                <span class="condition-highlight">If you lived in Tokyo</span>, <span class="result-highlight">you would experience the most amazing culture and cuisine</span>.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 6: Third Conditional -->
-        <div class="slide content-slide">
+        <!-- Slide 6: Enhanced Third Conditional -->
+        <div class="slide">
             <div class="content">
-                <h2>Third Conditional</h2>
-                <div class="type-badge">Type 3: Unreal Past</div>
-                <div class="formula-box">
-                    IF + Past Perfect + WOULD HAVE + Past Participle
+                <h2>🕰️ Third Conditional</h2>
+                <div class="type-badge">
+                    <span>⏳</span>
+                    Type 3: Unreal Past & Regrets
                 </div>
-                <div class="grid">
-                    <div class="card">
-                        <h4>🕰️ Usage</h4>
-                        <p>Express regrets about the past - situations that didn't happen but we imagine the results</p>
+                
+                <div class="formula-container">
+                    <div class="formula-title">Formula</div>
+                    <div class="formula-text">IF + Past Perfect + WOULD HAVE + Past Participle</div>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="glass-card">
+                        <div class="card-icon">🕰️</div>
+                        <h4>When to Use</h4>
+                        <p>Express regrets about the past, criticism, or imagine how things could have been different. These situations cannot be changed.</p>
                     </div>
-                    <div class="card">
-                        <h4>📜 Time Reference</h4>
-                        <p>Past - impossible to change</p>
+                    <div class="glass-card">
+                        <div class="card-icon">📜</div>
+                        <h4>Time Reference</h4>
+                        <p>Past - impossible to change. Used for reflecting on missed opportunities and alternative histories.</p>
                     </div>
                 </div>
-                <div class="example-container">
-                    <div class="example-title">Examples:</div>
-                    <div class="example-text">
-                        • <span class="condition-highlight">If I had studied harder</span>, <span class="result-highlight">I would have passed the test</span>.<br><br>
-                        • <span class="condition-highlight">If you had called me</span>, <span class="result-highlight">I would have helped you</span>.<br><br>
-                        • <span class="condition-highlight">If we had left earlier</span>, <span class="result-highlight">we wouldn't have missed the train</span>.
+
+                <div class="example-showcase">
+                    <div class="example-header">
+                        <div class="example-icon">💔</div>
+                        <div class="example-title">Past Regrets & Alternative Histories</div>
+                    </div>
+                    <div class="example-list">
+                        <div class="example-item">
+                            <div class="example-text">
+                                <span class="condition-highlight">If I had studied medicine in university</span>, <span class="result-highlight">I would have become a doctor and saved many lives</span>.
+                            </div>
+                        </div>
+                        <div class="example-item">
+                            <div class="example-text">
+                                <span class="condition-highlight">If you had called me yesterday</span>, <span class="result-highlight">I would have helped you solve that problem immediately</span>.
+                            </div>
+                        </div>
+                        <div class="example-item">
+                            <div class="example-text">
+                                <span class="condition-highlight">If we had left the house earlier</span>, <span class="result-highlight">we wouldn't have missed the important meeting</span>.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 7: When to Use Each Type -->
-        <div class="slide content-slide">
+        <!-- Slide 7: Enhanced Usage Guide -->
+        <div class="slide">
             <div class="content">
-                <h2>When to Use Each Type</h2>
-                <div class="usage-grid">
+                <h2>🎨 When to Use Each Type</h2>
+                <div class="grid grid-4">
                     <div class="usage-card">
                         <div class="usage-icon">🔬</div>
                         <div class="usage-title">Zero Conditional</div>
-                        <div class="usage-desc">Scientific facts, general truths, habits</div>
-                        <div style="margin-top: 10px; font-style: italic; color: #667eea;">
-                            "If you don't water plants, they die."
+                        <div class="usage-desc">Perfect for scientific facts, general truths, natural laws, and universal habits that never change.</div>
+                        <div class="usage-example">
+                            "If you don't water plants regularly, they die and wither away."
                         </div>
                     </div>
                     <div class="usage-card">
                         <div class="usage-icon">🎯</div>
                         <div class="usage-title">First Conditional</div>
-                        <div class="usage-desc">Real future plans, predictions, promises</div>
-                        <div style="margin-top: 10px; font-style: italic; color: #667eea;">
-                            "If I save money, I'll buy a car."
+                        <div class="usage-desc">Ideal for real future plans, realistic predictions, promises, and achievable goals.</div>
+                        <div class="usage-example">
+                            "If I save enough money this year, I'll buy a new car in December."
                         </div>
                     </div>
                     <div class="usage-card">
                         <div class="usage-icon">💭</div>
                         <div class="usage-title">Second Conditional</div>
-                        <div class="usage-desc">Advice, wishes, dreams, unlikely situations</div>
-                        <div style="margin-top: 10px; font-style: italic; color: #667eea;">
-                            "If I were you, I would apologize."
+                        <div class="usage-desc">Great for giving advice, expressing wishes, dreams, and discussing unlikely or impossible situations.</div>
+                        <div class="usage-example">
+                            "If I were the president, I would focus on education and healthcare reform."
                         </div>
                     </div>
                     <div class="usage-card">
                         <div class="usage-icon">🕰️</div>
                         <div class="usage-title">Third Conditional</div>
-                        <div class="usage-desc">Regrets, criticism, imagining different past</div>
-                        <div style="margin-top: 10px; font-style: italic; color: #667eea;">
-                            "If I had known, I would have come."
+                        <div class="usage-desc">Used for expressing regrets, criticism about past events, and imagining alternative past scenarios.</div>
+                        <div class="usage-example">
+                            "If I had known about the traffic, I would have taken a different route."
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 8: Interactive Quiz -->
-        <div class="slide content-slide">
+        <!-- Slide 8: Comparison Chart -->
+        <div class="slide">
             <div class="content">
-                <h2>Quick Practice</h2>
-                <div class="interactive-quiz">
-                    <div class="quiz-question">Choose the correct conditional type for this sentence:</div>
-                    <div style="font-style: italic; font-size: 1.2rem; margin-bottom: 25px; color: #667eea;">
-                        "If I _____ (be) taller, I _____ (play) basketball professionally."
+                <h2>📊 Quick Comparison Guide</h2>
+                <div class="glass-card" style="max-width: 1200px; margin: 2rem auto;">
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 1.1rem;">
+                            <thead>
+                                <tr style="background: var(--primary-gradient); color: white;">
+                                    <th style="padding: 1.5rem; text-align: left; border-radius: 12px 0 0 0;">Type</th>
+                                    <th style="padding: 1.5rem; text-align: left;">Formula</th>
+                                    <th style="padding: 1.5rem; text-align: left;">Usage</th>
+                                    <th style="padding: 1.5rem; text-align: left; border-radius: 0 12px 0 0;">Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background: rgba(102, 126, 234, 0.05);">
+                                    <td style="padding: 1.5rem; font-weight: 600; color: #667eea;">Zero</td>
+                                    <td style="padding: 1.5rem;">If + Present + Present</td>
+                                    <td style="padding: 1.5rem;">Facts & Truths</td>
+                                    <td style="padding: 1.5rem;">Always</td>
+                                </tr>
+                                <tr style="background: rgba(255, 255, 255, 0.5);">
+                                    <td style="padding: 1.5rem; font-weight: 600; color: #667eea;">First</td>
+                                    <td style="padding: 1.5rem;">If + Present + Will</td>
+                                    <td style="padding: 1.5rem;">Real Possibilities</td>
+                                    <td style="padding: 1.5rem;">Future</td>
+                                </tr>
+                                <tr style="background: rgba(102, 126, 234, 0.05);">
+                                    <td style="padding: 1.5rem; font-weight: 600; color: #667eea;">Second</td>
+                                    <td style="padding: 1.5rem;">If + Past + Would</td>
+                                    <td style="padding: 1.5rem;">Unreal Dreams</td>
+                                    <td style="padding: 1.5rem;">Present/Future</td>
+                                </tr>
+                                <tr style="background: rgba(255, 255, 255, 0.5);">
+                                    <td style="padding: 1.5rem; font-weight: 600; color: #667eea;">Third</td>
+                                    <td style="padding: 1.5rem;">If + Past Perfect + Would Have</td>
+                                    <td style="padding: 1.5rem;">Past Regrets</td>
+                                    <td style="padding: 1.5rem;">Past</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Enhanced Interactive Quiz -->
+        <div class="slide">
+            <div class="content">
+                <h2>🧠 Test Your Knowledge</h2>
+                <div class="quiz-container">
+                    <div class="quiz-header">
+                        <div class="quiz-question">Choose the correct conditional type for this sentence:</div>
+                        <div class="quiz-sentence">
+                            "If I _____ (be) taller, I _____ (play) basketball professionally."
+                        </div>
                     </div>
                     <div class="quiz-options" id="quizOptions">
                         <div class="quiz-option" onclick="selectOption(this, false)">
-                            A) If I am taller, I will play basketball professionally.
+                            <strong>A)</strong> If I <u>am</u> taller, I <u>will play</u> basketball professionally.
+                            <div style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">→ First Conditional (Real future possibility)</div>
                         </div>
                         <div class="quiz-option" onclick="selectOption(this, true)">
-                            B) If I were taller, I would play basketball professionally.
+                            <strong>B)</strong> If I <u>were</u> taller, I <u>would play</u> basketball professionally.
+                            <div style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">→ Second Conditional (Unreal present situation)</div>
                         </div>
                         <div class="quiz-option" onclick="selectOption(this, false)">
-                            C) If I had been taller, I would have played basketball professionally.
+                            <strong>C)</strong> If I <u>had been</u> taller, I <u>would have played</u> basketball professionally.
+                            <div style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">→ Third Conditional (Unreal past situation)</div>
                         </div>
                     </div>
-                    <button class="quiz-btn" onclick="checkAnswer()" id="checkBtn">Check Answer</button>
+                    <button class="quiz-btn" onclick="checkAnswer()" id="checkBtn">Check My Answer</button>
                     <div class="quiz-result" id="quizResult"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 9: Summary -->
-        <div class="slide content-slide">
+        <!-- Slide 10: Enhanced Summary -->
+        <div class="slide">
             <div class="content">
-                <h2>Key Takeaways</h2>
-                <div class="grid">
-                    <div class="card">
-                        <h4>🎯 Purpose</h4>
-                        <p>Conditional clauses help us express different types of situations and their consequences</p>
+                <h2>🌟 Key Takeaways</h2>
+                <div class="grid grid-2">
+                    <div class="glass-card">
+                        <div class="card-icon">🎯</div>
+                        <h4>Master the Purpose</h4>
+                        <p>Conditional clauses are powerful tools for expressing relationships between conditions and their consequences in various time frames.</p>
                     </div>
-                    <div class="card">
-                        <h4>📚 Types</h4>
-                        <p>Four main types: Zero (facts), First (real future), Second (unreal present), Third (unreal past)</p>
+                    <div class="glass-card">
+                        <div class="card-icon">📚</div>
+                        <h4>Remember the Types</h4>
+                        <p>Four distinct types: Zero (facts), First (real future), Second (unreal present), Third (unreal past) - each with specific uses.</p>
                     </div>
-                    <div class="card">
-                        <h4>💡 Usage</h4>
-                        <p>Choose the right type based on probability and time reference of the situation</p>
+                    <div class="glass-card">
+                        <div class="card-icon">💡</div>
+                        <h4>Choose Wisely</h4>
+                        <p>Select the right conditional type based on probability (real vs unreal) and time reference (past, present, future).</p>
                     </div>
-                    <div class="card">
-                        <h4>🔄 Practice</h4>
-                        <p>Regular practice helps you use conditionals naturally in conversation and writing</p>
+                    <div class="glass-card">
+                        <div class="card-icon">🚀</div>
+                        <h4>Practice Makes Perfect</h4>
+                        <p>Regular practice in real conversations and writing will make conditional usage feel natural and automatic.</p>
                     </div>
                 </div>
-                <div class="formula-box">
-                    Remember: The key is understanding whether the situation is<br>
-                    <strong>real or unreal</strong> and <strong>when it happens</strong>! ✨
+                <div class="formula-container">
+                    <div class="formula-title">Remember This Golden Rule</div>
+                    <div class="formula-text">The key to mastering conditionals is understanding whether the situation is<br>
+                    <strong style="color: #a8edea;">REAL or UNREAL</strong> and <strong style="color: #ffecd2;">WHEN it happens</strong>! ✨</div>
+                </div>
+                <div class="glass-card" style="margin-top: 2rem;">
+                    <div class="card-icon">🎉</div>
+                    <h4>Congratulations!</h4>
+                    <p>You've successfully learned all four types of conditional clauses. Now you can express possibilities, wishes, and hypothetical situations with confidence!</p>
                 </div>
             </div>
         </div>
 
         <!-- Navigation -->
         <div class="navigation">
-            <button class="nav-btn" onclick="previousSlide()" id="prevBtn">Previous</button>
-            <button class="nav-btn" onclick="nextSlide()" id="nextBtn">Next</button>
+            <button class="nav-btn" onclick="previousSlide()" id="prevBtn">← Previous</button>
+            <button class="nav-btn" onclick="nextSlide()" id="nextBtn">Next →</button>
         </div>
     </div>
 
@@ -638,12 +1075,41 @@
         let selectedOption = null;
         let quizAnswered = false;
 
+        // Create animated background particles
+        function createParticles() {
+            const bgAnimation = document.getElementById('bgAnimation');
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = (Math.random() * 20 + 10) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                bgAnimation.appendChild(particle);
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
         function showSlide(n) {
+            // Add transition classes
+            slides[currentSlide].classList.add('prev');
             slides[currentSlide].classList.remove('active');
-            currentSlide = (n + totalSlides) % totalSlides;
-            slides[currentSlide].classList.add('active');
+            
+            setTimeout(() => {
+                slides[currentSlide].classList.remove('prev');
+                currentSlide = (n + totalSlides) % totalSlides;
+                slides[currentSlide].classList.add('active');
+                slides[currentSlide].classList.remove('next');
+            }, 200);
             
             document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+            updateProgressBar();
             
             // Update navigation buttons
             document.getElementById('prevBtn').disabled = currentSlide === 0;
@@ -652,6 +1118,7 @@
 
         function nextSlide() {
             if (currentSlide < totalSlides - 1) {
+                slides[currentSlide + 1].classList.add('next');
                 showSlide(currentSlide + 1);
             }
         }
@@ -686,18 +1153,30 @@
             document.querySelectorAll('.quiz-option')[1].classList.add('correct');
             
             if (selectedOption.isCorrect) {
-                resultDiv.innerHTML = '✅ Correct! This is Second Conditional because it expresses an unreal present situation (being taller is impossible to change right now).';
+                resultDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="font-size: 2rem;">🎉</div>
+                        <div style="font-size: 1.3rem; font-weight: 600; color: #48bb78;">Excellent! You got it right!</div>
+                    </div>
+                    <div>This is <strong>Second Conditional</strong> because it expresses an unreal present situation. The person cannot change their height right now, so this is a hypothetical/imaginary scenario about the present.</div>
+                `;
                 resultDiv.style.background = 'rgba(72, 187, 120, 0.1)';
                 resultDiv.style.borderLeft = '4px solid #48bb78';
             } else {
                 selectedOption.element.classList.add('incorrect');
-                resultDiv.innerHTML = '❌ Not quite. The correct answer is B. This is Second Conditional because it expresses an unreal present situation - the person cannot change their height now.';
+                resultDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="font-size: 2rem;">💡</div>
+                        <div style="font-size: 1.3rem; font-weight: 600; color: #f56565;">Not quite right, but great try!</div>
+                    </div>
+                    <div>The correct answer is <strong>B) Second Conditional</strong>. This expresses an unreal present situation - the person cannot change their height now, making this a hypothetical scenario about what would happen if they were different.</div>
+                `;
                 resultDiv.style.background = 'rgba(245, 101, 101, 0.1)';
                 resultDiv.style.borderLeft = '4px solid #f56565';
             }
             
             resultDiv.style.display = 'block';
-            checkBtn.textContent = 'Try Another Question';
+            checkBtn.textContent = '🔄 Try Another Quiz';
             checkBtn.onclick = resetQuiz;
         }
 
@@ -710,23 +1189,78 @@
             });
             
             document.getElementById('quizResult').style.display = 'none';
-            document.getElementById('checkBtn').textContent = 'Check Answer';
+            document.getElementById('checkBtn').textContent = 'Check My Answer';
             document.getElementById('checkBtn').onclick = checkAnswer;
         }
 
-        // Keyboard navigation
+        // Enhanced keyboard navigation
         document.addEventListener('keydown', function(event) {
-            if (event.key === 'ArrowRight' || event.key === ' ') {
-                event.preventDefault();
-                nextSlide();
-            } else if (event.key === 'ArrowLeft') {
-                event.preventDefault();
-                previousSlide();
+            switch(event.key) {
+                case 'ArrowRight':
+                case ' ':
+                    event.preventDefault();
+                    nextSlide();
+                    break;
+                case 'ArrowLeft':
+                    event.preventDefault();
+                    previousSlide();
+                    break;
+                case 'Home':
+                    event.preventDefault();
+                    showSlide(0);
+                    break;
+                case 'End':
+                    event.preventDefault();
+                    showSlide(totalSlides - 1);
+                    break;
             }
         });
 
-        // Initialize
-        showSlide(0);
+        // Smooth scroll and touch support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', function(event) {
+            touchStartX = event.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', function(event) {
+            touchEndX = event.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide(); // Swipe left - next slide
+                } else {
+                    previousSlide(); // Swipe right - previous slide
+                }
+            }
+        }
+
+        // Initialize presentation
+        function init() {
+            createParticles();
+            updateProgressBar();
+            showSlide(0);
+            
+            // Auto-hide cursor after inactivity
+            let cursorTimeout;
+            document.addEventListener('mousemove', function() {
+                document.body.style.cursor = 'default';
+                clearTimeout(cursorTimeout);
+                cursorTimeout = setTimeout(() => {
+                    document.body.style.cursor = 'none';
+                }, 3000);
+            });
+        }
+
+        // Start the presentation
+        init();
     </script>
 </body>
 </html>
