@@ -198,6 +198,43 @@
             grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
         }
 
+        /* Special grid for key takeaways (slide 10) */
+        .grid-takeaways {
+            display: grid;
+            gap: clamp(1rem, 3vw, 2rem);
+            margin: 2rem 0;
+            width: 100%;
+            /* Mobile first: 1 column */
+            grid-template-columns: 1fr;
+        }
+
+        /* Tablet: 2x2 grid */
+        @media (min-width: 768px) and (max-width: 1199px) {
+            .grid-takeaways {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Desktop: 3 on top, 1 centered below */
+        @media (min-width: 1200px) and (max-width: 1599px) {
+            .grid-takeaways {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .grid-takeaways .glass-card:nth-child(4) {
+                grid-column: 2 / 3;
+            }
+        }
+
+        /* Large desktop: all 4 in one row */
+        @media (min-width: 1600px) {
+            .grid-takeaways {
+                grid-template-columns: repeat(4, 1fr);
+                max-width: 1400px;
+                margin: 2rem auto;
+            }
+        }
+
         .card-icon {
             font-size: clamp(2rem, 5vw, 3rem);
             margin-bottom: 1rem;
