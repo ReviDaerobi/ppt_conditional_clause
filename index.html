@@ -1245,7 +1245,7 @@
             document.getElementById('progressBar').style.width = progress + '%';
         }
 
-        function showSlide(n) {
+         function showSlide(n) {
             // Add transition classes
             slides[currentSlide].classList.add('prev');
             slides[currentSlide].classList.remove('active');
@@ -1255,14 +1255,15 @@
                 currentSlide = (n + totalSlides) % totalSlides;
                 slides[currentSlide].classList.add('active');
                 slides[currentSlide].classList.remove('next');
+                
+                // Update counter and progress bar inside setTimeout to ensure currentSlide is updated
+                document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+                updateProgressBar();
+                
+                // Update navigation buttons
+                document.getElementById('prevBtn').disabled = currentSlide === 0;
+                document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
             }, 200);
-            
-            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
-            updateProgressBar();
-            
-            // Update navigation buttons
-            document.getElementById('prevBtn').disabled = currentSlide === 0;
-            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
         }
 
         function nextSlide() {
